@@ -15,10 +15,14 @@ Plugin 'VundleVim/Vundle.vim'
 """""""""""""""
 " My Plugins
 """""""""""""""
+Plugin 'tpope/vim-dispatch' "run asynchonous commands
+Plugin 'itchyny/calendar.vim' "Calender for Vim
+Plugin 'hsitz/VimOrganizer' "Org-Mode for Vim
 Plugin 'mattn/emmet-vim' "Emmet for HTML and CSS - from github
 Plugin 'bling/vim-airline' "StatusBar not dependend on Python
 Plugin 'Townk/vim-autoclose' "For closing parenthesis
 Plugin 'scrooloose/nerdtree' "File explorer
+Plugin 'kien/ctrlp.vim'      "Fuzzy file finder
 Plugin 'othree/html5.vim' "Autocomplete for HTML5
 Plugin 'tpope/vim-rails' "Rails Powertool
 Plugin 'tpope/vim-fugitive' "Controle Git
@@ -27,6 +31,12 @@ Plugin 'tpope/vim-endwise' "Closing def, if, ...
 Plugin 'tpope/vim-ragtag' "Tools for Tags...
 Plugin 'tomtom/tcomment_vim' "Commenting out with only one stroke
 Plugin 'ervandew/supertab' "Tab completion
+Plugin 'kchmck/vim-coffee-script' "Vim Script for Coffee-Script
+Plugin 'claco/jasmine.vim'   "Highlighting for jasmine.js
+Plugin 'keith/rspec.vim' "Highlighting RSpec
+Plugin 'thoughtbot/vim-rspec' "Fire RSpecs out of Vim with one keystroke
+Plugin 'jgdavey/tslime.vim' "Send specs to another tmux window
+Plugin 'tpope/vim-haml' "HAML support
 """ vim snipmate & dependencies
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
@@ -65,9 +75,12 @@ autocmd! bufwritepost .vimrc source %
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 
- set pastetoggle=<F2>
- set clipboard=unnamed
-
+set pastetoggle=<F2>
+" Does not work, because vim was not compiled with clipboard
+" set clipboard=unnamed
+" to fix this...
+vmap <C-x> :!pbcopy<CR>
+vmap <C-c> :w !pbcopy<CR><CR>
 
 " Mouse and backspace
  set mouse=a  " on OSX press ALT and click
@@ -96,6 +109,10 @@ autocmd! bufwritepost .vimrc source %
 " Quick quit command
  noremap <Leader>e :quit<CR>  " Quit current window
  noremap <Leader>E :qa!<CR>   " Quit all windows
+ noremap <silent> <Leader>w :w<CR>     " Write current file
+ noremap <Leader>W :wall<CR>  " Write all files
+ noremap <Leader>x :x<CR>     " Write & close current file
+ noremap <Leader>X :xall<CR>  " Write & close all files
 
 
 " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
@@ -105,6 +122,19 @@ autocmd! bufwritepost .vimrc source %
  map <c-l> <c-w>l
  map <c-h> <c-w>h
 
+" settings for rspec-vim and tslime
+let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+" map vim-rails :Rake to shortcut
+map <Leader>r :Rake<CR>
+
+" get easy in the Gstatus-window of fugitive
+ nnoremap <Leader>gs :Gstatus<CR>
 
 " easier moving between tabs
  map <Leader>n <esc>:tabprevious<CR>
@@ -139,6 +169,8 @@ autocmd! bufwritepost .vimrc source %
 "" vmap Q gq
 "" nmap Q gqap
 
+" make preview window a size of 20 lines
+set previewheight=20
 
 " Useful settings
  set history=700
@@ -165,3 +197,7 @@ autocmd! bufwritepost .vimrc source %
  set nobackup
  set nowritebackup
  set noswapfile
+
+" Some settings for the vim org-mode clone -> VimOrganizer
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+au BufEnter *.org call org#SetOrgFileType()

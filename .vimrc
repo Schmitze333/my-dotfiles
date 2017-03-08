@@ -20,6 +20,7 @@ Plugin 'itchyny/calendar.vim' "Calender for Vim
 Plugin 'hsitz/VimOrganizer' "Org-Mode for Vim
 Plugin 'mattn/emmet-vim' "Emmet for HTML and CSS - from github
 Plugin 'bling/vim-airline' "StatusBar not dependend on Python
+Plugin 'vim-airline/vim-airline-themes' "Airline themes are moved to here
 Plugin 'Townk/vim-autoclose' "For closing parenthesis
 Plugin 'scrooloose/nerdtree' "File explorer
 Plugin 'kien/ctrlp.vim'      "Fuzzy file finder
@@ -60,9 +61,14 @@ set laststatus=2
 let g:airline_theme='luna'
 let g:airline_powerline_fonts=0
 
+" Rebind <Leader> key
+" I like to have it here becuase it is easier to reach than the default and
+" it is next to ``m`` and ``n`` which I use for navigating between tabs.
+ let mapleader = ","
+
 " NERDTree
 " start NERDTree in normal and insert mode with <ctrl>-m
-map <silent> <C-m> :NERDTreeFocus<CR>
+map <Leader>q :NERDTreeFocus<CR>
 
 " For my own health - get rid of ESC 
 imap jj <ESC>
@@ -85,11 +91,6 @@ vmap <C-c> :w !pbcopy<CR><CR>
 " Mouse and backspace
  set mouse=a  " on OSX press ALT and click
 
-
-" Rebind <Leader> key
-" I like to have it here becuase it is easier to reach than the default and
-" it is next to ``m`` and ``n`` which I use for navigating between tabs.
- let mapleader = ","
 
 
 " Bind nohl

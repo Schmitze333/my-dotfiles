@@ -138,8 +138,8 @@ map <Leader>r :Rake<CR>
  nnoremap <Leader>gs :Gstatus<CR>
 
 " easier moving between tabs
- map <Leader>n <esc>:tabprevious<CR>
- map <Leader>m <esc>:tabnext<CR>
+ map <Leader>n <esc>:bn<CR>
+ map <Leader>m <esc>:bp<CR>
 
 
 " map sort function to a key
@@ -153,18 +153,18 @@ map <Leader>r :Rake<CR>
  vnoremap > >gv  " better indentation
 
 " Showing line numbers and length
-" set number  " show line numbers
+ set number  " show line numbers
  set relativenumber " show line numbers relative to cursor
  set tw=79   " width of document (used by gd)
  set nowrap  " don't automatically wrap on load
  set fo-=t   " don't automatically wrap text when typing
  set cursorline " highlights the actual line
- hi CursorLine cterm=None ctermbg=31 ctermfg=None
+ hi CursorLine cterm=None ctermbg=0 ctermfg=None
  set cursorcolumn   " highlights also active column
- hi CursorColumn cterm=None ctermbg=56 ctermfg=None
+ hi CursorColumn cterm=None ctermbg=4 ctermfg=None
 
- set colorcolumn=80
- highlight ColorColumn ctermbg=233
+ set colorcolumn=100
+ highlight ColorColumn ctermbg=5
 
 " easier formatting of paragraphs
 "" vmap Q gq

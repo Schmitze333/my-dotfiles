@@ -18,6 +18,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-dispatch' "run asynchonous commands
 Plugin 'itchyny/calendar.vim' "Calender for Vim
 Plugin 'hsitz/VimOrganizer' "Org-Mode for Vim
+Plugin 'dhruvasagar/vim-table-mode' "create tables with vim
 Plugin 'mattn/emmet-vim' "Emmet for HTML and CSS - from github
 Plugin 'bling/vim-airline' "StatusBar not dependend on Python
 Plugin 'vim-airline/vim-airline-themes' "Airline themes are moved to here
@@ -43,6 +44,9 @@ Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'honza/vim-snippets'
 Plugin 'garbas/vim-snipmate'
+""" Vim as a C++ IDE
+Plugin 'jalcine/cmake.vim' "CMake from vim 
+Plugin 'alepez/vim-gtest' "GTest commands
 
 
 " All of your Plugins must be added before the following line

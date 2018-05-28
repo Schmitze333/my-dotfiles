@@ -16,6 +16,7 @@ Plugin 'VundleVim/Vundle.vim'
 " My Plugins
 """""""""""""""
 Plugin 'tpope/vim-dispatch' "run asynchonous commands
+Plugin 'tpope/vim-surround' "fancy surrounding options
 Plugin 'itchyny/calendar.vim' "Calender for Vim
 Plugin 'hsitz/VimOrganizer' "Org-Mode for Vim
 Plugin 'dhruvasagar/vim-table-mode' "create tables with vim
@@ -29,6 +30,7 @@ Plugin 'othree/html5.vim' "Autocomplete for HTML5
 Plugin 'tpope/vim-rails' "Rails Powertool
 Plugin 'tpope/vim-fugitive' "Controle Git
 Plugin 'vim-ruby/vim-ruby' "Tools for Ruby
+Plugin 'tpope/vim-bundler' "Hooks into bundler
 Plugin 'tpope/vim-endwise' "Closing def, if, ...
 Plugin 'tpope/vim-ragtag' "Tools for Tags...
 Plugin 'tomtom/tcomment_vim' "Commenting out with only one stroke
@@ -39,6 +41,7 @@ Plugin 'keith/rspec.vim' "Highlighting RSpec
 Plugin 'thoughtbot/vim-rspec' "Fire RSpecs out of Vim with one keystroke
 Plugin 'jgdavey/tslime.vim' "Send specs to another tmux window
 Plugin 'tpope/vim-haml' "HAML support
+Plugin 'tpope/vim-cucumber' "Cucumber support
 """ vim snipmate & dependencies
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
@@ -47,6 +50,11 @@ Plugin 'garbas/vim-snipmate'
 """ Vim as a C++ IDE
 Plugin 'jalcine/cmake.vim' "CMake from vim 
 Plugin 'alepez/vim-gtest' "GTest commands
+Plugin 'Valloric/YouCompleteMe' "Clang based autocompletion
+" Plugin 'vim-scripts/Conque-GDB' "Debug from within vim <=== UNCOMMENT this line for debugging with GDB!
+""" Vim as LaTeX-IDE
+Plugin 'ying17zi/vim-live-latex-preview'
+Plugin 'brennier/quicktex'
 
 
 " All of your Plugins must be added before the following line
@@ -72,7 +80,7 @@ let g:airline_powerline_fonts=0
 
 " NERDTree
 " start NERDTree in normal and insert mode with <ctrl>-m
-map <Leader>q :NERDTreeFocus<CR>
+map  :NERDTreeFocus<CR>
 
 " For my own health - get rid of ESC 
 imap jj <ESC>
@@ -170,6 +178,8 @@ map <Leader>r :Rake<CR>
  set colorcolumn=100
  highlight ColorColumn ctermbg=5
 
+ colorscheme darkblue
+
 " easier formatting of paragraphs
 "" vmap Q gq
 "" nmap Q gqap
@@ -206,3 +216,11 @@ set previewheight=20
 " Some settings for the vim org-mode clone -> VimOrganizer
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org call org#SetOrgFileType()
+
+" Some macros for the work with rails
+" changing a spec line callin get, post, ... to new params hash syntax
+let @a = '0f,a params: {lxA }'
+" change old to new hash syntax when placed over the leading :
+let @s = 'xeplxxx'
+" changes a member variable declaration to a specs let(..)
+let @d = '0f@xilet(:ea)f=r{A }'

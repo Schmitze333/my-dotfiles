@@ -1,71 +1,90 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Managing Plugins with Vundle!!!
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Because of my terminal disable cursor shape -> weird artifacts else!!!
+set guicursor=
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Managing Plugins with VimPlug!!!
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call plug#begin('~/.local/share/nvim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"""""""""""""""
-" My Plugins
-"""""""""""""""
-Plugin 'tpope/vim-dispatch' "run asynchonous commands
-Plugin 'tpope/vim-surround' "fancy surrounding options
-Plugin 'itchyny/calendar.vim' "Calender for Vim
-Plugin 'hsitz/VimOrganizer' "Org-Mode for Vim
-Plugin 'dhruvasagar/vim-table-mode' "create tables with vim
-Plugin 'mattn/emmet-vim' "Emmet for HTML and CSS - from github
-Plugin 'bling/vim-airline' "StatusBar not dependend on Python
-Plugin 'vim-airline/vim-airline-themes' "Airline themes are moved to here
-Plugin 'Townk/vim-autoclose' "For closing parenthesis
-Plugin 'scrooloose/nerdtree' "File explorer
-Plugin 'kien/ctrlp.vim'      "Fuzzy file finder
-Plugin 'othree/html5.vim' "Autocomplete for HTML5
-Plugin 'tpope/vim-rails' "Rails Powertool
-Plugin 'tpope/vim-fugitive' "Controle Git
-Plugin 'vim-ruby/vim-ruby' "Tools for Ruby
-Plugin 'tpope/vim-bundler' "Hooks into bundler
-Plugin 'tpope/vim-endwise' "Closing def, if, ...
-Plugin 'tpope/vim-ragtag' "Tools for Tags...
-Plugin 'tomtom/tcomment_vim' "Commenting out with only one stroke
-Plugin 'ervandew/supertab' "Tab completion
-Plugin 'kchmck/vim-coffee-script' "Vim Script for Coffee-Script
-Plugin 'claco/jasmine.vim'   "Highlighting for jasmine.js
-Plugin 'keith/rspec.vim' "Highlighting RSpec
-Plugin 'thoughtbot/vim-rspec' "Fire RSpecs out of Vim with one keystroke
-Plugin 'jgdavey/tslime.vim' "Send specs to another tmux window
-Plugin 'tpope/vim-haml' "HAML support
-Plugin 'tpope/vim-cucumber' "Cucumber support
-""" vim snipmate & dependencies
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'honza/vim-snippets'
-Plugin 'garbas/vim-snipmate'
+" Airline
+Plug 'bling/vim-airline' "StatusBar not dependend on Python
+Plug 'vim-airline/vim-airline-themes' "Airline themes are moved to here
+
+" File-Browsing etc.
+Plug 'scrooloose/nerdtree' "File explorer
+Plug 'kien/ctrlp.vim'      "Fuzzy file finder
+
+" NeoMake
+Plug 'neomake/neomake'
+
+" Autocompletion with Deoplede
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+" Input
+Plug 'tpope/vim-surround' "fancy surrounding options
+Plug 'tomtom/tcomment_vim' "Commenting out with only one stroke
+Plug 'tpope/vim-endwise' "Closing def, if, ...
+Plug 'tpope/vim-ragtag' "Tools for Tags...
+Plug 'Townk/vim-autoclose' "For closing parenthesis
+Plug 'ervandew/supertab' "Tab completion
+Plug 'dhruvasagar/vim-table-mode' "create tables with vim
+
+" Ruby and Rails
+Plug 'tpope/vim-rails' "Rails Powertool
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' } "Tools for Ruby
+Plug 'tpope/vim-bundler', { 'for': 'ruby' } "Hooks into bundler
+Plug 'kchmck/vim-coffee-script' "Vim Script for Coffee-Script
+Plug 'keith/rspec.vim', { 'for': 'ruby' } "Highlighting RSpec
+Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' } "Fire RSpecs out of Vim with one keystroke
+Plug 'tpope/vim-haml' "HAML support
+Plug 'tpope/vim-cucumber' "Cucumber support
+
+" HTML and JavaScript
+Plug 'othree/html5.vim' "Autocomplete for HTML5
+Plug 'claco/jasmine.vim'   "Highlighting for jasmine.js
+
+" Git
+Plug 'tpope/vim-fugitive' "Controle Git
+Plug 'airblade/vim-gitgutter'
+
+" more...
+Plug 'tpope/vim-dispatch' "run asynchonous commands
+Plug 'itchyny/calendar.vim' "Calender for Vim
+Plug 'hsitz/VimOrganizer' "Org-Mode for Vim
+
 """ Vim as a C++ IDE
-Plugin 'jalcine/cmake.vim' "CMake from vim 
-Plugin 'alepez/vim-gtest' "GTest commands
-Plugin 'Valloric/YouCompleteMe' "Clang based autocompletion
+Plug 'jalcine/cmake.vim', { 'for': 'cpp' } "CMake from vim 
+Plug 'alepez/vim-gtest', { 'for': 'cpp' } "GTest commands
+" Plug 'Valloric/YouCompleteMe' "Clang based autocompletion
 " Plugin 'vim-scripts/Conque-GDB' "Debug from within vim <=== UNCOMMENT this line for debugging with GDB!
-""" Vim as LaTeX-IDE
-Plugin 'ying17zi/vim-live-latex-preview'
-Plugin 'brennier/quicktex'
 
+" Vim as LaTeX-IDE
+Plug 'ying17zi/vim-live-latex-preview', { 'for': 'tex' }
+Plug 'brennier/quicktex', { 'for': 'tex' }
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-syntax on
+""" OLD and not used due to NEOvim
+" Plug 'mattn/emmet-vim' "Emmet for HTML and CSS - from github
+" Plug 'jgdavey/tslime.vim' "Send specs to another tmux window
+""" vim snipmate & dependencies
+" Plug 'MarcWeber/vim-addon-mw-utils'
+" Plug 'tomtom/tlib_vim'
+" Plug 'honza/vim-snippets'
+" Plug 'garbas/vim-snipmate'
+
+call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My Configurations!
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+syntax on
+set updatetime=400
+autocmd BufRead,BufNewFile * setlocal signcolumn=yes
+autocmd BufEnter NERD_tree_* setlocal signcolumn=no
+
+" Enable Deoplete
+let g:deoplete#enable_at_startup = 1
+ 
 " AIRLINE
 " I want airline directly - not just after a split
 set laststatus=2
@@ -80,14 +99,15 @@ let g:airline_powerline_fonts=0
 
 " NERDTree
 " start NERDTree in normal and insert mode with <ctrl>-m
-map  :NERDTreeFocus<CR>
+map <C-A-l> :NERDTreeToggle<CR>
 
 " For my own health - get rid of ESC 
 imap jj <ESC>
+tnoremap <Esc> <C-\><C-n>
+tnoremap jj  <C-\><C-n>
 
 " Automatic reloading of .vimrc
-autocmd! bufwritepost .vimrc source %
-
+autocmd! bufwritepost /home/schmitze/.config/nvim/init.vim source %
 
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
@@ -102,8 +122,6 @@ vmap <C-c> :w !pbcopy<CR><CR>
 
 " Mouse and backspace
  set mouse=a  " on OSX press ALT and click
-
-
 
 " Bind nohl
 " Removes highlight of your last search
@@ -135,13 +153,16 @@ vmap <C-c> :w !pbcopy<CR><CR>
  map <c-l> <c-w>l
  map <c-h> <c-w>h
 
-" settings for rspec-vim and tslime
-let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+" NeoMake config
+call neomake#configure#automake('w')
 
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" settings for rspec-vim and tslime
+" let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
 
 " map vim-rails :Rake to shortcut
 map <Leader>r :Rake<CR>
@@ -149,10 +170,20 @@ map <Leader>r :Rake<CR>
 " get easy in the Gstatus-window of fugitive
  nnoremap <Leader>gs :Gstatus<CR>
 
-" easier moving between tabs
- map <Leader>n <esc>:bn<CR>
- map <Leader>m <esc>:bp<CR>
-
+" easier moving between buffers and tabs
+"  map <Leader>n <esc>:bn<CR>
+"  map <Leader>m <esc>:bp<CR>
+set hidden
+set confirm
+map <A-l> :ls<CR>:buffer<Space>
+map <A-v> :ls<CR>:vert sb<Space>
+map <A-d> :ls<CR>:bd<Space>
+map <A-n> :bn<CR>
+map <A-m> :bp<CR>
+map <C-A-z> :tabnew %<CR>
+map <Leader>m :tabn<CR>
+map <Leader>n :tabp<CR>
+map <C-A-S-b> :vert sball<CR>
 
 " map sort function to a key
  vnoremap <Leader>s :sort<CR>
@@ -201,7 +232,7 @@ set previewheight=20
 
 
 " Make search case insensitive
-" set hlsearch
+ set hlsearch
  set incsearch
  set ignorecase
  set smartcase
@@ -214,8 +245,8 @@ set previewheight=20
  set noswapfile
 
 " Some settings for the vim org-mode clone -> VimOrganizer
-au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
-au BufEnter *.org call org#SetOrgFileType()
+" au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+" au BufEnter *.org call org#SetOrgFileType()
 
 " Some macros for the work with rails
 " changing a spec line callin get, post, ... to new params hash syntax

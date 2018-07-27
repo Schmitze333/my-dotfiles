@@ -9,7 +9,8 @@ export ZSH="/Users/marc.schmitz/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="gnzh"
 # ZSH_THEME="bira"
-ZSH_THEME="fino"
+# ZSH_THEME="fino"
+ZSH_THEME="muse"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random

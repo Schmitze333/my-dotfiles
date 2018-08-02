@@ -22,6 +22,9 @@ Plug 'kien/ctrlp.vim'      "Fuzzy file finder
 " NeoMake
 Plug 'neomake/neomake'
 
+" Search with Ack
+Plug 'mileszs/ack.vim'
+
 " vim-test
 Plug 'janko-m/vim-test'
 
@@ -191,6 +194,8 @@ vmap <C-c> :w !pbcopy<CR><CR>
 
 " Search and Replace word under cursor
  nnoremap <Leader>F :%s/<C-r><C-w>//g<Left><Left>
+ nnoremap <Leader>a :Ack!<Space>
+ nnoremap <Leader>G :Ack! <C-r><C-W><CR>
 
 " Generate/Create ctags file
  nnoremap <Leader>ct :!ctags -a -R -u<CR>

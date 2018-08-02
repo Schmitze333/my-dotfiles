@@ -7,7 +7,7 @@ let g:projectionist_heuristics = {
   \    "alternate": "test/{}_test.exs",
   \    "type": "source"
   \    },
-  \    "/test/*_test.exs": {
+  \    "test/*_test.exs": {
   \    "alternate": "lib/{}.ex",
   \    "type": "test"
   \     },

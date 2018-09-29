@@ -239,6 +239,7 @@ map <C-A-z> :tabnew %<CR>
 map <Leader>m :bn<CR>
 map <Leader>n :bp<CR>
 map <C-A-S-b> :vert sball<CR>
+map <Leader><Tab> <C-^>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### AIRLINE

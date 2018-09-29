@@ -235,11 +235,9 @@ map <Leader>l :ls<CR>:buffer<Space>
 map <Leader>v :ls<CR>:vert sb<Space>
 map <Leader>d :ls<CR>:bd!<Space>
 map <Leader>D :w<CR>:bd!<CR>
-map <C-A-x> :bn<CR>
-map <C-A-y> :bp<CR>
 map <C-A-z> :tabnew %<CR>
-map <Leader>m :tabn<CR>
-map <Leader>n :tabp<CR>
+map <Leader>m :bn<CR>
+map <Leader>n :bp<CR>
 map <C-A-S-b> :vert sball<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

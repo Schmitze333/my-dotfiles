@@ -38,5 +38,8 @@ alias gf='git fetch'
 alias nv='nvim'
 alias vi='nvim'
 
+# Spacemacs start editor in current directory
+# alias spc='emacs . &'
+
 # RBenv
 eval "$(rbenv init -)"

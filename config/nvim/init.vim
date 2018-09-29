@@ -46,6 +46,9 @@ Plug 'keith/rspec.vim', { 'for': 'ruby' } "Highlighting RSpec
 Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' } "Fire RSpecs out of Vim with one keystroke
 Plug 'tpope/vim-haml' "HAML support
 Plug 'tpope/vim-cucumber' "Cucumber support
+Plug 'ngmy/vim-rubocop' "Rubocop in vim
+Plug 'tpope/vim-rbenv'
+Plug 'tpope/vim-bundler'
 
 " HTML
 Plug 'othree/html5.vim' "Autocomplete for HTML5
@@ -76,6 +79,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-dispatch' "run asynchonous commands
 Plug 'itchyny/calendar.vim' "Calender for Vim
 Plug 'hsitz/VimOrganizer' "Org-Mode for Vim
+Plug 'JamshedVesuna/vim-markdown-preview' "Preview markdown files
+Plug 'jeetsukumaran/vim-markology' "Show marks in gutter
 
 """ Vim as a C++ IDE
 Plug 'jalcine/cmake.vim', { 'for': 'cpp' } "CMake from vim 
@@ -86,6 +91,9 @@ Plug 'alepez/vim-gtest', { 'for': 'cpp' } "GTest commands
 " Vim as LaTeX-IDE
 Plug 'ying17zi/vim-live-latex-preview', { 'for': 'tex' }
 Plug 'brennier/quicktex', { 'for': 'tex' }
+
+" Pairprogramming via Floobits
+Plug 'floobits/floobits-neovim'
 
 call plug#end()
 
@@ -115,7 +123,7 @@ autocmd BufEnter NERD_tree_* setlocal signcolumn=no
 
 " Showing line numbers and length
  set number  " show line numbers
- set relativenumber " show line numbers relative to cursor
+"  set relativenumber " show line numbers relative to cursor
  set tw=79   " width of document (used by gd)
  set nowrap  " don't automatically wrap on load
  set fo-=t   " don't automatically wrap text when typing
@@ -127,7 +135,7 @@ autocmd BufEnter NERD_tree_* setlocal signcolumn=no
  set colorcolumn=81
  highlight ColorColumn ctermbg=2
 
- colorscheme dracula
+ colorscheme jellybeans
 
 " make preview window a size of 20 lines
 set previewheight=20
@@ -161,7 +169,7 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap kj  <C-\><C-n>
 
 " Rebind <Leader> key
- let mapleader = ","
+ let mapleader = "\<Space>"
  
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
@@ -185,26 +193,36 @@ vmap <C-c> :w !pbcopy<CR><CR>
  inoremap <C-s> <C-O>:update<CR>
 
 " Quick quit command
- noremap <Leader>e :quit<CR>  " Quit current window
- noremap <Leader>E :qa!<CR>   " Quit all windows
- noremap <silent> <Leader>w :w<CR>     " Write current file
- noremap <Leader>W :wall<CR>  " Write all files
- noremap <Leader>x :x<CR>     " Write & close current file
- noremap <Leader>X :xall<CR>  " Write & close all files
+ noremap <Leader>fe :quit<CR>  " Quit current window
+ noremap <Leader>FE :qa!<CR>   " Quit all windows
+ noremap <silent> <Leader>fs :w<CR>     " Write current file
+ noremap <Leader>FS :wall<CR>  " Write all files
+ noremap <Leader>fx :x<CR>     " Write & close current file
+ noremap <Leader>FX :xall<CR>  " Write & close all files
 
 " Search and Replace word under cursor
  nnoremap <Leader>F :%s/<C-r><C-w>//g<Left><Left>
  nnoremap <Leader>a :Ack!<Space>
  nnoremap <Leader>G :Ack! <C-r><C-W><CR>
 
+ " Formatter
+ nnoremap <Leader>M :w<CR>:Mix format<CR><CR>
+
 " Generate/Create ctags file
  nnoremap <Leader>ct :!ctags -a -R -u<CR>
+ nnoremap <Leader>cT :!gem ctags & rbenv ctags<CR>
+ nnoremap <Leader>cl :ts<CR>
+ map <F12> 
 
 " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
  map <c-j> <c-w>j
  map <c-k> <c-w>k
  map <c-l> <c-w>l
  map <c-h> <c-w>h
+
+" Code folding by syntax
+set foldmethod=syntax
+set foldlevelstart=20
  
 " easier handling of buffers and tabs
 set hidden
@@ -287,6 +305,18 @@ map <Leader>r :Rake<CR>
 " #### Ctags
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:gutentags_cache_dir = '~/.tags_cache'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" #### Markdown Preview
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let vim_markdown_preview_hotkey='<C-J>'
+let vim_markdown_preview_browser='Google Chrome'
+let vim_markdown_preview_github=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" #### Markology
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:markology_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "    ##### JavaScript #####

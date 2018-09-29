@@ -223,6 +223,10 @@ vmap <C-c> :w !pbcopy<CR><CR>
 " Code folding by syntax
 set foldmethod=syntax
 set foldlevelstart=20
+
+" Moving selected lines
+xmap <C-k> :m '< -- <CR> gv
+xmap <C-j> :m '> + <CR> gv
  
 " easier handling of buffers and tabs
 set hidden

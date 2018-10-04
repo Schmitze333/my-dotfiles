@@ -181,6 +181,9 @@ vmap <C-c> :w !pbcopy<CR><CR>
 " Mouse and backspace
  set mouse=a  " on OSX press ALT and click
 
+ " Edit this file shortcut
+noremap <Leader>fed :tabnew ~/.config/nvim/init.vim<CR>
+
 " Bind nohl
 " Removes highlight of your last search
 " ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
@@ -233,8 +236,8 @@ set hidden
 set confirm
 map <Leader>l :ls<CR>:buffer<Space>
 map <Leader>v :ls<CR>:vert sb<Space>
-map <Leader>d :ls<CR>:bd!<Space>
-map <Leader>D :w<CR>:bd!<CR>
+map <Leader>fd :ls<CR>:bd!<Space>
+map <Leader>FD :w<CR>:bd!<CR>
 map <C-A-z> :tabnew %<CR>
 map <Leader>m :bn<CR>
 map <Leader>n :bp<CR>
@@ -312,7 +315,7 @@ let g:gutentags_cache_dir = '~/.tags_cache'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### Markdown Preview
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let vim_markdown_preview_hotkey='<C-J>'
+let vim_markdown_preview_hotkey='<C-M>'
 let vim_markdown_preview_browser='Google Chrome'
 let vim_markdown_preview_github=1
 

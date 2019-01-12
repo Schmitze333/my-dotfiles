@@ -1,14 +1,24 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Projectionist Heuristics  
+" Projectionist Heuristics
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:projectionist_heuristics = {
-  \ "lib/&deps/&mix.exs": {
-  \    "lib/*.ex": {
-  \    "alternate": "test/{}_test.exs",
+  \ "deps/&mix.exs": {
+  \    "*/lib/*.ex": {
+  \    "alternate": "*/test/{}_test.exs",
   \    "type": "source"
   \    },
   \    "test/*_test.exs": {
   \    "alternate": "lib/{}.ex",
+  \    "type": "test"
+  \     },
+  \ },
+  \ "src/&package.json": {
+  \    "*/src/*.tsx": {
+  \    "alternate": "*/src/{}.test.tsx",
+  \    "type": "source"
+  \    },
+  \    "*/src/*.test.tsx": {
+  \    "alternate": "*/src/{}.tsx",
   \    "type": "test"
   \     },
   \ },

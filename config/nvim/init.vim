@@ -12,6 +12,7 @@ Plug 'bling/vim-airline' "StatusBar not dependend on Python
 Plug 'vim-airline/vim-airline-themes' "Airline themes are moved to here
 
 " Colorscheme
+Plug 'flazz/vim-colorschemes'
 Plug 'nanotech/jellybeans.vim'
 Plug 'dracula/vim', {'as': 'dracula'}
 
@@ -49,6 +50,7 @@ Plug 'tpope/vim-cucumber' "Cucumber support
 Plug 'ngmy/vim-rubocop' "Rubocop in vim
 Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-bundler'
+Plug 'sunaku/vim-ruby-minitest'
 
 " HTML
 Plug 'othree/html5.vim' "Autocomplete for HTML5
@@ -57,6 +59,7 @@ Plug 'mattn/emmet-vim'
 " Autocompletion
 Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs' "JS
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 " JS
 Plug 'w0rp/ale'
@@ -64,13 +67,18 @@ Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
 
+" TypeScript
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'leafgarland/typescript-vim'
+
 " Elixir and Phoenix
 Plug 'sheerun/vim-polyglot'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'slashmili/alchemist.vim'
 Plug 'c-brenn/phoenix.vim'
 Plug 'tpope/vim-projectionist'
- 
+Plug 'mmorearty/elixir-ctags' " Ctag support for elixir tags
+
 " Git
 Plug 'tpope/vim-fugitive' "Controle Git
 Plug 'airblade/vim-gitgutter'
@@ -83,7 +91,7 @@ Plug 'JamshedVesuna/vim-markdown-preview' "Preview markdown files
 Plug 'jeetsukumaran/vim-markology' "Show marks in gutter
 
 """ Vim as a C++ IDE
-Plug 'jalcine/cmake.vim', { 'for': 'cpp' } "CMake from vim 
+Plug 'jalcine/cmake.vim', { 'for': 'cpp' } "CMake from vim
 Plug 'alepez/vim-gtest', { 'for': 'cpp' } "GTest commands
 " Plug 'Valloric/YouCompleteMe' "Clang based autocompletion
 " Plugin 'vim-scripts/Conque-GDB' "Debug from within vim <=== UNCOMMENT this line for debugging with GDB!
@@ -108,6 +116,10 @@ syntax on
 set updatetime=400
 autocmd BufRead,BufNewFile * setlocal signcolumn=yes
 autocmd BufEnter NERD_tree_* setlocal signcolumn=no
+
+" python paths
+let g:python_host_prog='/usr/local/bin/python2'
+let g:python3_host_prog='/usr/local/bin/python3'
 
 " Disable stupid backup and swap files - they trigger too many events
 " for file system watchers
@@ -135,7 +147,8 @@ autocmd BufEnter NERD_tree_* setlocal signcolumn=no
  set colorcolumn=81
  highlight ColorColumn ctermbg=2
 
- colorscheme jellybeans
+ set background=dark
+ colorscheme Tomorrow-Night-Bright
 
 " make preview window a size of 20 lines
 set previewheight=20
@@ -163,14 +176,14 @@ autocmd! bufwritepost ~/.config/nvim/init.vim source %
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General Key-Mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" For my own health - get rid of ESC 
+" For my own health - get rid of ESC
 imap kj <ESC>
 tnoremap <Esc> <C-\><C-n>
 tnoremap kj  <C-\><C-n>
 
 " Rebind <Leader> key
  let mapleader = "\<Space>"
- 
+
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
@@ -182,7 +195,7 @@ vmap <C-c> :w !pbcopy<CR><CR>
  set mouse=a  " on OSX press ALT and click
 
  " Edit this file shortcut
-noremap <Leader>fed :tabnew ~/.config/nvim/init.vim<CR>
+noremap <Leader>fr :tabnew ~/.config/nvim/init.vim<CR>
 
 " Bind nohl
 " Removes highlight of your last search
@@ -210,6 +223,12 @@ noremap <Leader>fed :tabnew ~/.config/nvim/init.vim<CR>
 
  " Formatter
  nnoremap <Leader>M :w<CR>:Mix format<CR><CR>
+ " automatic trailling whitespace removal on save
+ autocmd BufWritePre * :%substitute/\s\+$//e
+ " fix indentation for a code block
+ nnoremap <Leader>== (V)=
+ " fix indentation for whole buffer
+ nnoremap <Leader>= ggVG=''zz
 
 " Generate/Create ctags file
  nnoremap <Leader>ct :!ctags -a -R -u<CR>
@@ -230,7 +249,7 @@ set foldlevelstart=20
 " Moving selected lines
 xmap <C-k> :m '< -- <CR> gv
 xmap <C-j> :m '> + <CR> gv
- 
+
 " easier handling of buffers and tabs
 set hidden
 set confirm
@@ -243,6 +262,38 @@ map <Leader>m :bn<CR>
 map <Leader>n :bp<CR>
 map <C-A-S-b> :vert sball<CR>
 map <Leader><Tab> <C-^>
+
+" open a scratch buffer
+noremap <Leader>SP :tabe ~/develop/Notes/ScratchPad.md<CR>
+
+" Toggle 'default' terminal
+nnoremap <Leader>T :call ChooseTerm("default-terminal", 1)<CR>
+
+function! ChooseTerm(termname, slider)
+  let pane = bufwinnr(a:termname)
+  let buf = bufexists(a:termname)
+  if pane > 0
+    if a:slider > 0
+      :exe pane . "wincmd c"
+    else
+      :exe "e #"
+    endif
+  elseif buf > 0
+    if a:slider
+      :exe "botright split"
+    endif
+    :exe "buffer " . a:termname
+  else
+    if a:slider
+      :exe "botright split"
+    endif
+    :terminal
+    :exe "f " a:termname
+  endif
+endfunction
+
+" VS-Code like terminal opening
+map <C-A-j> :bel split term://zsh<CR> A
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### AIRLINE
@@ -286,7 +337,7 @@ nmap <silent> <Leader>tv :TestVisit<CR>
 call neomake#configure#automake('w')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" #### Emmet 
+" #### Emmet
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:user_emmet_leader_key='<Tab>'
 let g:user_emmet_settings = {
@@ -302,7 +353,7 @@ let g:user_emmet_settings = {
 map <Leader>r :Rake<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" #### Git 
+" #### Git
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " get easy in the Gstatus-window of fugitive
  nnoremap <Leader>gs :Gstatus<CR>
@@ -345,8 +396,8 @@ let g:prettier#autoformat = 0
 " Whether to include the types of the completions in the result data. Default: 0
 let g:deoplete#sources#ternjs#types = 1
 
-" Whether to include the distance (in scopes for variables, in prototypes for 
-" properties) between the completions and the origin position in the result 
+" Whether to include the distance (in scopes for variables, in prototypes for
+" properties) between the completions and the origin position in the result
 " data. Default: 0
 let g:deoplete#sources#ternjs#depths = 1
 
@@ -354,7 +405,7 @@ let g:deoplete#sources#ternjs#depths = 1
 let g:deoplete#sources#ternjs#docs = 1
 
 " When on, only completions that match the current word at the given point will
-" be returned. Turn this off to get all results, so that you can filter on the 
+" be returned. Turn this off to get all results, so that you can filter on the
 " client side. Default: 1
 let g:deoplete#sources#ternjs#filter = 0
 let g:deoplete#sources#ternjs#case_insensitive = 1

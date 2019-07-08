@@ -15,10 +15,12 @@ Plug 'vim-airline/vim-airline-themes' "Airline themes are moved to here
 Plug 'flazz/vim-colorschemes'
 Plug 'nanotech/jellybeans.vim'
 Plug 'dracula/vim', {'as': 'dracula'}
+Plug 'drewtempelmeyer/palenight.vim', {'as': 'palenight'}
 
 " File-Browsing etc.
+Plug 'Shougo/denite.nvim'
 Plug 'scrooloose/nerdtree' "File explorer
-Plug 'kien/ctrlp.vim'      "Fuzzy file finder
+" Plug 'kien/ctrlp.vim'      "Fuzzy file finder
 
 " NeoMake
 Plug 'neomake/neomake'
@@ -57,8 +59,8 @@ Plug 'othree/html5.vim' "Autocomplete for HTML5
 Plug 'mattn/emmet-vim'
 
 " Autocompletion
-Plug 'Shougo/deoplete.nvim'
-Plug 'carlitux/deoplete-ternjs' "JS
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'carlitux/deoplete-ternjs' "JS
 " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 " JS
@@ -68,7 +70,6 @@ Plug 'prettier/vim-prettier', {
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
 
 " TypeScript
-Plug 'HerringtonDarkholme/yats.vim'
 Plug 'leafgarland/typescript-vim'
 
 " Elixir and Phoenix
@@ -78,6 +79,10 @@ Plug 'slashmili/alchemist.vim'
 Plug 'c-brenn/phoenix.vim'
 Plug 'tpope/vim-projectionist'
 Plug 'mmorearty/elixir-ctags' " Ctag support for elixir tags
+
+" Python
+Plug 'nvie/vim-flake8'
+Plug 'vim-scripts/indentpython.vim'
 
 " Git
 Plug 'tpope/vim-fugitive' "Controle Git
@@ -117,6 +122,9 @@ set updatetime=400
 autocmd BufRead,BufNewFile * setlocal signcolumn=yes
 autocmd BufEnter NERD_tree_* setlocal signcolumn=no
 
+set nocp                    " 'compatible' is not set
+filetype plugin on          " plugins are enabled
+
 " python paths
 let g:python_host_prog='/usr/local/bin/python2'
 let g:python3_host_prog='/usr/local/bin/python3'
@@ -148,7 +156,11 @@ let g:python3_host_prog='/usr/local/bin/python3'
  highlight ColorColumn ctermbg=2
 
  set background=dark
- colorscheme Tomorrow-Night-Bright
+"  colorscheme Tomorrow-Night-Bright
+"  colorscheme Atelier_PlateauDark
+"  colorscheme pixelmuerto
+" colorscheme palenight
+colorscheme PaperColor
 
 " make preview window a size of 20 lines
 set previewheight=20
@@ -213,8 +225,6 @@ noremap <Leader>fr :tabnew ~/.config/nvim/init.vim<CR>
  noremap <Leader>FE :qa!<CR>   " Quit all windows
  noremap <silent> <Leader>fs :w<CR>     " Write current file
  noremap <Leader>FS :wall<CR>  " Write all files
- noremap <Leader>fx :x<CR>     " Write & close current file
- noremap <Leader>FX :xall<CR>  " Write & close all files
 
 " Search and Replace word under cursor
  nnoremap <Leader>F :%s/<C-r><C-w>//g<Left><Left>
@@ -228,7 +238,7 @@ noremap <Leader>fr :tabnew ~/.config/nvim/init.vim<CR>
  " fix indentation for a code block
  nnoremap <Leader>== (V)=
  " fix indentation for whole buffer
- nnoremap <Leader>= ggVG=''zz
+ nnoremap <Leader>= gg=G''zz
 
 " Generate/Create ctags file
  nnoremap <Leader>ct :!ctags -a -R -u<CR>
@@ -253,18 +263,19 @@ xmap <C-j> :m '> + <CR> gv
 " easier handling of buffers and tabs
 set hidden
 set confirm
-map <Leader>l :ls<CR>:buffer<Space>
+map <Leader>l :Denite buffer<CR>
 map <Leader>v :ls<CR>:vert sb<Space>
 map <Leader>fd :ls<CR>:bd!<Space>
 map <Leader>FD :w<CR>:bd!<CR>
-map <C-A-z> :tabnew %<CR>
+map <C-A-z> :tab split<CR>
+map <Leader>to :tabnew<CR>
 map <Leader>m :bn<CR>
 map <Leader>n :bp<CR>
 map <C-A-S-b> :vert sball<CR>
 map <Leader><Tab> <C-^>
 
 " open a scratch buffer
-noremap <Leader>SP :tabe ~/develop/Notes/ScratchPad.md<CR>
+noremap <Leader><Leader>sp :tabe ~/develop/Notes/ScratchPad.md<CR>
 
 " Toggle 'default' terminal
 nnoremap <Leader>T :call ChooseTerm("default-terminal", 1)<CR>
@@ -292,9 +303,6 @@ function! ChooseTerm(termname, slider)
   endif
 endfunction
 
-" VS-Code like terminal opening
-map <C-A-j> :bel split term://zsh<CR> A
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### AIRLINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -307,16 +315,32 @@ let g:airline_powerline_fonts=0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### Deoplede
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#enable_at_startup = 0
-call deoplete#custom#option({
-      \ 'auto_complete_delay': 100,
-      \})
-autocmd InsertEnter * call deoplete#enable()
+" let g:deoplete#enable_at_startup = 0
+" call deoplete#custom#option({
+"       \ 'auto_complete_delay': 100,
+"       \})
+" autocmd InsertEnter * call deoplete#enable()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <C-A-a> :NERDTreeToggle<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" #### Denite
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap <Leader>ff :Denite file<CR>
+noremap <Leader>pf :Denite file/rec buffer<CR>
+noremap <Leader>sp :Denite grep<CR>
+noremap <Leader>sg :DeniteCursorWord grep:.<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" #### Ctrl-P
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\v[\/]node_modules$',
+      \ }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### Vim-Test
@@ -376,13 +400,18 @@ let vim_markdown_preview_github=1
 let g:markology_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" #### Python
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let test#python#runner = 'pytest'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "    ##### JavaScript #####
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "### Linting with ale
 " ALE
 let g:ale_lint_on_enter=0
 let g:set_highlights=0
-let g:ale_completion_enabled=1
+let g:ale_completion_enabled=0
 let g:ale_keep_list_window_open=1
 let g:ale_lint_on_text_changed='never'
 highlight ALEWarning ctermbg=DarkMagenta
@@ -393,37 +422,38 @@ let g:prettier#autoformat = 0
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
 "### Autocompletion with ternjs
-" Whether to include the types of the completions in the result data. Default: 0
-let g:deoplete#sources#ternjs#types = 1
-
-" Whether to include the distance (in scopes for variables, in prototypes for
-" properties) between the completions and the origin position in the result
-" data. Default: 0
-let g:deoplete#sources#ternjs#depths = 1
-
-" Whether to include documentation strings (if found) in the result data.
-let g:deoplete#sources#ternjs#docs = 1
-
-" When on, only completions that match the current word at the given point will
-" be returned. Turn this off to get all results, so that you can filter on the
-" client side. Default: 1
-let g:deoplete#sources#ternjs#filter = 0
-let g:deoplete#sources#ternjs#case_insensitive = 1
-let g:deoplete#sources#ternjs#guess = 0
-let g:deoplete#sources#ternjs#sort = 0
-let g:deoplete#sources#ternjs#expand_word_forward = 0
-let g:deoplete#sources#ternjs#omit_object_prototype = 0
-let g:deoplete#sources#ternjs#include_keywords = 1
-let g:deoplete#sources#ternjs#in_literal = 0
-
-"Add extra filetypes
-let g:deoplete#sources#ternjs#filetypes = [
-                \ 'jsx',
-                \ 'javascript.jsx',
-                \ 'vue',
-                \ '...'
-                \ ]
-
+" " Whether to include the types of the completions in the result data. Default: 0
+" let g:deoplete#sources#ternjs#types = 0
+"
+" " Whether to include the distance (in scopes for variables, in prototypes for
+" " properties) between the completions and the origin position in the result
+" " data. Default: 0
+" let g:deoplete#sources#ternjs#depths = 0
+"
+" " Whether to include documentation strings (if found) in the result data.
+" let g:deoplete#sources#ternjs#docs = 1
+"
+" " When on, only completions that match the current word at the given point will
+" " be returned. Turn this off to get all results, so that you can filter on the
+" " client side. Default: 0
+" let g:deoplete#sources#ternjs#filter = 0
+" let g:deoplete#sources#ternjs#case_insensitive = 1
+" let g:deoplete#sources#ternjs#guess = 0
+" let g:deoplete#sources#ternjs#sort = 0
+" let g:deoplete#sources#ternjs#expand_word_forward = 0
+" let g:deoplete#sources#ternjs#omit_object_prototype = 0
+" let g:deoplete#sources#ternjs#include_keywords = 1
+" let g:deoplete#sources#ternjs#in_literal = 0
+"
+" "Add extra filetypes
+" let g:deoplete#sources#ternjs#filetypes = [
+"                 \ 'jsx',
+"                 \ 'javascript.jsx',
+"                 \ 'vue',
+"                 \ '...'
+"                 \ ]
+"
 " Other configurations
+source ~/.config/nvim/denite.config.vim
 source ~/.config/nvim/projectionist_heuristics.vim
 source ~/.config/nvim/myMacros.vim

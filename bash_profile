@@ -43,3 +43,4 @@ alias vi='nvim'
 
 # RBenv
 eval "$(rbenv init -)"
+export PATH="$HOME/.exenv/bin:$PATH"

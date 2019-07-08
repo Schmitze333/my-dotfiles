@@ -115,6 +115,8 @@ echo '===== Do NOT forget to run:   ============================='
 echo '=====        sudo ifconfig lo0 alias 192.168.100.1 ========'
 echo '==========================================================='
 
+# Node
+export PATH="$(npm bin -g):$PATH"
 
 # bundle
 alias be='bundle exec'
@@ -140,3 +142,7 @@ alias spc='emacs . &'
 # RBenv
 eval "$(rbenv init -)"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash

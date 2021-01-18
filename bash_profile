@@ -33,6 +33,8 @@ alias gbr='git branch -rv'
 alias gd='git diff'
 alias gcv='git commit -v'
 alias gf='git fetch'
+alias ga='git add'
+alias gco='git checkout'
 
 # Always use NeoVim
 alias nv='nvim'
@@ -42,5 +44,9 @@ alias vi='nvim'
 # alias spc='emacs . &'
 
 # RBenv
-eval "$(rbenv init -)"
-export PATH="$HOME/.exenv/bin:$PATH"
+# eval "$(rbenv init -)"
+# export PATH="$HOME/.exenv/bin:$PATH"
+
+. /usr/local/opt/asdf/asdf.sh
+
+. /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash

@@ -18,9 +18,9 @@ Plug 'dracula/vim', {'as': 'dracula'}
 Plug 'drewtempelmeyer/palenight.vim', {'as': 'palenight'}
 
 " File-Browsing etc.
-Plug 'Shougo/denite.nvim'
+" Plug 'Shougo/denite.nvim'
 Plug 'scrooloose/nerdtree' "File explorer
-" Plug 'kien/ctrlp.vim'      "Fuzzy file finder
+Plug 'kien/ctrlp.vim'      "Fuzzy file finder
 
 " NeoMake
 Plug 'neomake/neomake'
@@ -62,6 +62,7 @@ Plug 'mattn/emmet-vim'
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'carlitux/deoplete-ternjs' "JS
 " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'neoclide/coc.nvim'
 
 " JS
 Plug 'w0rp/ale'
@@ -71,6 +72,8 @@ Plug 'prettier/vim-prettier', {
 
 " TypeScript
 Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'mhartington/nvim-typescript'
 
 " Elixir and Phoenix
 Plug 'sheerun/vim-polyglot'
@@ -160,7 +163,8 @@ let g:python3_host_prog='/usr/local/bin/python3'
 "  colorscheme Atelier_PlateauDark
 "  colorscheme pixelmuerto
 " colorscheme palenight
-colorscheme PaperColor
+" colorscheme PaperColor
+colorscheme jellygrass
 
 " make preview window a size of 20 lines
 set previewheight=20
@@ -220,6 +224,14 @@ noremap <Leader>fr :tabnew ~/.config/nvim/init.vim<CR>
  vnoremap <C-s> <C-C>:update<CR>
  inoremap <C-s> <C-O>:update<CR>
 
+" Feel more like Spacemacs
+nnoremap <C-l> zt
+nnoremap <C-l><C-l> zz
+inoremap <C-f> <C-o>a
+inoremap <C-b> <C-o>i
+inoremap <C-a> <C-o>0
+inoremap <C-e> <C-o>$
+
 " Quick quit command
  noremap <Leader>fe :quit<CR>  " Quit current window
  noremap <Leader>FE :qa!<CR>   " Quit all windows
@@ -241,20 +253,14 @@ noremap <Leader>fr :tabnew ~/.config/nvim/init.vim<CR>
  nnoremap <Leader>= gg=G''zz
 
 " Generate/Create ctags file
- nnoremap <Leader>ct :!ctags -a -R -u<CR>
+ nnoremap <Leader>ct :!ctags -a -u<CR>
  nnoremap <Leader>cT :!gem ctags & rbenv ctags<CR>
  nnoremap <Leader>cl :ts<CR>
  map <F12> 
 
-" bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
- map <c-j> <c-w>j
- map <c-k> <c-w>k
- map <c-l> <c-w>l
- map <c-h> <c-w>h
-
 " Code folding by syntax
-set foldmethod=syntax
-set foldlevelstart=20
+" set foldmethod=syntax
+" set foldlevelstart=20
 
 " Moving selected lines
 xmap <C-k> :m '< -- <CR> gv
@@ -263,10 +269,12 @@ xmap <C-j> :m '> + <CR> gv
 " easier handling of buffers and tabs
 set hidden
 set confirm
-map <Leader>l :Denite buffer<CR>
+" map <Leader>l :Denite buffer<CR>
+map <Leader>l :ls<CR>:b<Space>
 map <Leader>v :ls<CR>:vert sb<Space>
 map <Leader>fd :ls<CR>:bd!<Space>
 map <Leader>FD :w<CR>:bd!<CR>
+map <Leader>bd :ls<CR>:bd!<CR>
 map <C-A-z> :tab split<CR>
 map <Leader>to :tabnew<CR>
 map <Leader>m :bn<CR>
@@ -276,6 +284,9 @@ map <Leader><Tab> <C-^>
 
 " open a scratch buffer
 noremap <Leader><Leader>sp :tabe ~/develop/Notes/ScratchPad.md<CR>
+
+" run rbprettier
+noremap <Leader><Leader>p :w<CR>:!rbprettier --write %<CR>
 
 " Toggle 'default' terminal
 nnoremap <Leader>T :call ChooseTerm("default-terminal", 1)<CR>
@@ -309,7 +320,7 @@ endfunction
 " I want airline directly - not just after a split
 set laststatus=2
 " theme & font
-let g:airline_theme='luna'
+let g:airline_theme='base16'
 let g:airline_powerline_fonts=0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -324,15 +335,15 @@ let g:airline_powerline_fonts=0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <C-A-a> :NERDTreeToggle<CR>
+map <C-a> :NERDTreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### Denite
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-noremap <Leader>ff :Denite file<CR>
-noremap <Leader>pf :Denite file/rec buffer<CR>
-noremap <Leader>sp :Denite grep<CR>
-noremap <Leader>sg :DeniteCursorWord grep:.<CR>
+" noremap <Leader>ff :Denite file<CR>
+" noremap <Leader>pf :Denite file/rec buffer<CR>
+" noremap <Leader>sp :Denite grep<CR>
+" noremap <Leader>sg :DeniteCursorWord grep:.<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " #### Ctrl-P
@@ -411,13 +422,14 @@ let test#python#runner = 'pytest'
 " ALE
 let g:ale_lint_on_enter=0
 let g:set_highlights=0
-let g:ale_completion_enabled=0
+let g:ale_completion_enabled=1
 let g:ale_keep_list_window_open=1
 let g:ale_lint_on_text_changed='never'
 highlight ALEWarning ctermbg=DarkMagenta
 
 " ### Prettier
 let g:prettier#autoformat = 0
+noremap <Leader>p :PrettierAsync<CR>
 " Do not run Prettier for every save - rather manually with Leader-P.
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
@@ -454,6 +466,6 @@ let g:prettier#autoformat = 0
 "                 \ ]
 "
 " Other configurations
-source ~/.config/nvim/denite.config.vim
+" source ~/.config/nvim/denite.config.vim
 source ~/.config/nvim/projectionist_heuristics.vim
 source ~/.config/nvim/myMacros.vim

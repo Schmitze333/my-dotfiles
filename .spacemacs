@@ -47,7 +47,7 @@ This function should only modify configuration layer settings."
            web-mode-attr-indent-offset 2
            web-mode-attr-value-indent-offset 2
            web-mode-css-indent-offset 2
-           web-mode-code-indent-offset2)
+           web-mode-code-indent-offset 2)
      prettier
      (elixir :variables
              elixir-backend 'alchemist)
@@ -99,7 +99,7 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-shell 'vterm
             shell-default-width 44
-            shell-default-position 'bottom-edge)
+            shell-default-position 'bottom)
      docker
      groovy
      ;; spell-checking

@@ -294,7 +294,8 @@
   :config
   (setq which-key-posframe-parameters
 	'((left-fringe . 25)
-	  (right-fringe . 25)))
+	  (right-fringe . 25)
+	  (border-width . 5)))
   (which-key-posframe-mode))
 
 ;; Visual add-ons
@@ -402,7 +403,7 @@
 (use-package perspective
   :bind ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
   :custom
-  (persp-mode-prefix-key (kbd "s-n"))
+  (persp-mode-prefix-key (kbd "s-l"))
   :config
   (persp-mode))
 

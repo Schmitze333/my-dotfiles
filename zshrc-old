@@ -2,38 +2,35 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/marcschmitz/.oh-my-zsh"
+export ZSH="/Users/marc.schmitz/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="af-magic"
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# ZSH_THEME="gnzh"
+# ZSH_THEME="bira"
+# ZSH_THEME="fino"
+ZSH_THEME="muse"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
+# Set list of themes to load
+# Setting this variable when ZSH_THEME=random
+# cause zsh load theme from this variable instead of
+# looking in ~/.oh-my-zsh/themes/
+# An empty array have no effect
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -45,8 +42,6 @@ ZSH_THEME="af-magic"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -65,12 +60,23 @@ ZSH_THEME="af-magic"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git asdf docker-compose emacs)
+plugins=(
+  iterm2
+  osx
+  git
+  gitfast
+  git-extras
+  git-prompt
+  colorize
+  common-aliases
+  docker
+  docker-compose
+  emoji
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -82,14 +88,17 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nvim'
+else
+  export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -98,14 +107,42 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-alias be="bundle exec"
-alias ber="bundle exec rake"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Clone ivx repositories
-clown () { git clone git@github.com:ivx/"$@".git }
+# Remind me to make local services accessable to docker containers
+echo '===== Moin, moin! ========================================='
+echo '===== Do NOT forget to run:   ============================='
+echo '=====        sudo ifconfig lo0 alias 192.168.100.1 ========'
+echo '==========================================================='
 
-export AWS_ACCESS_KEY_ID=`awk -F "=" '/aws_access_key_id/ {print $2}' ${HOME}/.aws/credentials |tail -1 | xargs`
-export AWS_SECRET_ACCESS_KEY=`awk -F "=" '/aws_secret_access_key/ {print $2}' ${HOME}/.aws/credentials |tail -1 | xargs`
-export AWS_SESSION_TOKEN=`awk -F "=" '/aws_session_token/ {print $2}' ${HOME}/.aws/credentials |tail -1 | xargs`
-export AWS_REGION=`awk -F "=" '/region/ {print $2}' ${HOME}/.aws/config | tail -1 | xargs`
-export AWS_DEFAULT_REGION=`awk -F "=" '/region/ {print $2}' ${HOME}/.aws/config | tail -1 | xargs`
+# Node
+export PATH="$(npm bin -g):$PATH"
+
+# bundle
+alias be='bundle exec'
+
+# Git Shortcuts
+alias g='git status'
+alias gl='git log'
+alias gla='git log --all --graph --decorate'
+alias glo='git log --all --graph --decorate --oneline'
+alias gb='git branch'
+alias gbr='git branch -rv'
+alias gd='git diff'
+alias gcv='git commit -v'
+alias gf='git fetch'
+
+# Always use NeoVim
+alias nv='nvim'
+alias vi='nvim'
+
+# Spacemacs startup in current directory
+alias spc='emacs . &'
+
+# RBenv
+eval "$(rbenv init -)"
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
